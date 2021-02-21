@@ -1,0 +1,1 @@
+import './my-comp.js';
