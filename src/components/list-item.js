@@ -1,13 +1,14 @@
-import MvvmHTMLElement from '../utils/MvvmHTMLElement.js';
+import MvvmHTMLElement from '../wrapper/MvvmHTMLElement.js';
+import './list-input.js';
 
 const html = `
 <div view>
-  <span ref="p"></span>
-  <button ref="modify">m</button>
-  <button ref="remove">x</button>
+  <span model-text-content="text"></span>
+  <button @click="modify">m</button>
+  <button @click="remove">x</button>
 </div>
 <div modify>
-  <list-input ref="input"></list-input>
+  <list-input model-input-value="text"></list-input>
 </div>
 
 <style scoped>
@@ -28,8 +29,25 @@ window.customElements.define(
   'list-item',
   class extends MvvmHTMLElement {
     constructor() {
-      super({ html });
+      super({
+        html,
+        data: {
+          text: '',
+        },
+        methods: {
+          modify() {
+            this.classList.add('modify');
+          },
+          remove() {
+            this.remove();
+          },
+        },
+        mounted() {
+          this.$data.text = this.getAttribute('init-text');
+        },
+      });
 
+      /*
       this.$ref.remove.addEventListener('click', this.remove.bind(this));
 
       this.$ref.modify.addEventListener('click', () => {
@@ -47,16 +65,7 @@ window.customElements.define(
           this.$ref.p.textContent = newValue;
         }
       });
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-      if (name === 'data-inner-text') {
-        this.$data.innerText = newValue;
-      }
-    }
-  
-    static get observedAttributes() {
-      return ['data-inner-text'];
+      */
     }
   },
 );
