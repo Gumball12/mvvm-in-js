@@ -3,6 +3,12 @@ import MvvmHTMLElement from '../wrapper/MvvmHTMLElement.js';
 const html = `
 <input @input="updateInputValue" m-prop-value="inputValue">
 <button @click="submit">submit</button>
+
+<style scoped>
+:host {
+  display: block;
+}
+</style>
 `;
 
 window.customElements.define(
