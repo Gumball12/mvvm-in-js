@@ -1,3 +1,6 @@
+import { isHTMLElement, isProperty } from './utils/validation.js';
+import { isNotHTMLElementMsg, isNotPropertyMsg } from './utils/errorMsgs.js';
+
 /**
  * two-way data binding (via data models)
  * 
@@ -5,15 +8,14 @@
  * @param {string} attrName attribute name to sharing data model value
  * @param {string} dataName data name to update
  */
-export default function twoWayBinding_data(target, attrName, dataName) {
-  // validation
-  if (!(target instanceof HTMLElement)) {
-    console.error('bind target must be an instance of HTMLElement');
+export default function (target, attrName, dataName) {
+  if (!isHTMLElement(target)) {
+    console.error(isNotHTMLElementMsg);
     return;
   }
 
-  if (this.$data[dataName] === undefined) {
-    console.error('data does not exists', dataName);
+  if (!isProperty(this.$data, dataName)) {
+    console.error(isNotPropertyMsg);
     return;
   }
 
@@ -21,6 +23,7 @@ export default function twoWayBinding_data(target, attrName, dataName) {
   new MutationObserver((list, obs) => {
     const value = target.getAttribute(`${attrName}__bind`);
 
+    // sync value
     if (this.$data[dataName] !== value) {
       this.$data[dataName] = value;
     }

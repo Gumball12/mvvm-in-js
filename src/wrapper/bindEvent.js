@@ -1,3 +1,6 @@
+import { isHTMLElement, isProperty } from './utils/validation.js';
+import { isNotHTMLElementMsg, isNotPropertyMsg } from './utils/errorMsgs.js';
+
 /**
  * bind event
  * 
@@ -5,15 +8,14 @@
  * @param {string} name event name
  * @param {string} handlerName handler method name (declared in class)
  */
-export default function bindEvent(target, name, handlerName) {
-  // validation
-  if (!(target instanceof HTMLElement)) {
-    console.error('event target must be an instance of HTMLElement:', name);
+export default function (target, name, handlerName) {
+  if (!isHTMLElement(target)) {
+    console.error(isNotHTMLElementMsg);
     return;
   }
 
-  if (this.$methods[handlerName] === undefined) {
-    console.error('methods does not exists', handlerName);
+  if (!isProperty(this.$methods, handlerName)) {
+    console.error(isNotPropertyMsg);
     return;
   }
 
