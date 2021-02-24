@@ -44,10 +44,6 @@ export default function (target, propName, dataName, isModel) {
   }
 
   // data -> dom
-  if (this.$watcher[dataName] === undefined) {
-    this.$watcher[dataName] = [];
-  }
-
   if (isModel) {
     // properties
     this.$watcher[dataName].push((oldValue, newValue) => target[propName] = newValue);
