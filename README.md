@@ -1,7 +1,8 @@
 # MVVM in JS
 
+- [todo-app demo](https://gumball12.github.io/mvvm-in-js/)
 - view [MvvmHTMLElement](./src/wrapper/MvvmHTMLElement.js)
-- [usage](./src)
+- [usage](./src/index.js)
 
 ## MVVM Wrapped `HTMLElement`
 
@@ -21,8 +22,8 @@
 - `$emit`: dispatch custom event
 
 ### DOM Attribute usages
-- `model-<child-property-name>="<dataName>"`: two-way data binding (via properties)
-- `bind-<dom-attribute-name>="<dataName>"`: two-way data binding (via attributes)
-- `bidata-<child-data-name>="<dataName>"`: two-way data binding (via data model)
-- `ref="<refName>"`: register a reference to an element
+- `m-data-<child-data-name>="<dataName>"`: two-way data binding (via data model)
+- `m-attr-<child-property-name-to-update>="<dataName>"`: property binding
+- `m-prop-<child-attribute-name-to-update>="<dataName>"`: attribute binding
+- `m-ref="<refName>"`: register a reference to an element
 - `@<eventname>="<methodName>"`: add event listener
