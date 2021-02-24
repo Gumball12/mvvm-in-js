@@ -5,12 +5,12 @@ import './components/list-item.js';
 const html = `
 <header>
   <h1>TO-DO List</h1>
-  <h2>next item: <span model-text-content="printValue"></span></h2>
+  <h2>next item: <span m-prop-text-content="printValue"></span></h2>
 </header>
 
 <main>
-  <list-input @submit="createTodoItem" bidata-input-value="printValue"></list-input>
-  <section ref="items"></section>
+  <list-input @submit="createTodoItem" m-data-input-value="printValue"></list-input>
+  <section m-ref="items"></section>
 </main>
 
 <footer>
@@ -29,8 +29,6 @@ window.customElements.define(
         },
         methods: {
           createTodoItem({ detail }) {
-            this.$data.inputValue = '';
-
             if (detail !== '') {
               const item = document.createElement('list-item');
               item.setAttribute('init-text', detail);

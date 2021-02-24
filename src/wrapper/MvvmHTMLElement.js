@@ -2,7 +2,8 @@ import kebobToCamel from '../utils/kebobToCamel.js';
 import bindEvent from './bindEvent.js';
 import twoWayBinding from './twoWayBinding.js';
 import registerRef from './registerRef.js';
-import twoWayBinding_data from './twoWayBinding_data.js';
+import bindProperty from './bindProperty.js';
+import bindAttribute from './bindAttribute.js';
 
 /**
  * # MVVM Wrapped HTMLElement
@@ -23,10 +24,10 @@ import twoWayBinding_data from './twoWayBinding_data.js';
  * - `$emit`: dispatch custom event
  * 
  * ## DOM Attribute usages
- * - `model-<child-property-name>="<dataName>"`: two-way data binding (via properties)
- * - `bind-<dom-attribute-name>="<dataName>"`: two-way data binding (via attributes)
- * - `bidata-<child-data-name>="<dataName>"`: two-way data binding (via data model)
- * - `ref="<refName>"`: register a reference to an element
+ * - `m-data-<child-data-name>="<dataName>"`: two-way data binding (via data model)
+ * - `m-attr-<child-property-name-to-update>="<dataName>"`: property binding
+ * - `m-prop-<child-attribute-name-to-update>="<dataName>"`: attribute binding
+ * - `m-ref="<refName>"`: register a reference to an element
  * - `@<eventname>="<methodName>"`: add event listener
  */
 export default class extends HTMLElement {
@@ -131,42 +132,36 @@ export default class extends HTMLElement {
       for (const el of this.$root.querySelectorAll('*')) {
         for (const name of el.getAttributeNames()) {
           if (name.startsWith('@')) {
-            // event binding
             const eventName = name.slice(1);
             const handlerName = el.getAttribute(name);
             bindEvent.call(this, el, eventName, handlerName);
-          } else if (name.startsWith('model-')) {
-            // two-way data binding (properties <-> data)
-            const propName = kebobToCamel(name, { ignorePrefix: 'model' });
+          } else if (name.startsWith('m-prop-')) {
+            const propName = kebobToCamel(name, { ignorePrefix: 'm-prop' });
             const dataName = el.getAttribute(name);
-            twoWayBinding.call(this, el, propName, dataName, true);
-          } else if (name.startsWith('bind-')) {
-            // two-way data binding (attributes <-> data)
-            const attrName = kebobToCamel(name, { ignorePrefix: 'bind' });
+            bindProperty.call(this, el, propName, dataName);
+          } else if (name.startsWith('m-attr-')) {
+            const attrName = kebobToCamel(name, { ignorePrefix: 'm-attr' });
             const dataName = el.getAttribute(name);
-            twoWayBinding.call(this, el, attrName, dataName, false);
-          } else if (name.startsWith('bidata-')) {
-            // two-way data binding (data <-> data)
+            bindAttribute.call(this, el, attrName, dataName, false);
+          } else if (name.startsWith('m-data-') && !name.endsWith('__bind')) {
             const dataName = el.getAttribute(name);
-            twoWayBinding_data.call(this, el, name, dataName);
-          } else if (name === 'ref') {
-            // register a ref
-            const refName = el.getAttribute('ref');
+            twoWayBinding.call(this, el, name, dataName);
+          } else if (name === 'm-ref') {
+            const refName = el.getAttribute(name);
             registerRef.call(this, el, refName);
           }
         }
       }
 
       for (const name of this.getAttributeNames()) {
-        if (name.startsWith('bidata-')) {
-          // two-way data binding (data <-> data)
-          const dataName = kebobToCamel(name, { ignorePrefix: 'bidata' });
-          twoWayBinding_data.call(this, this, name, dataName);
+        if (name.startsWith('m-data-') && !name.endsWith('__bind')) {
+          const dataName = kebobToCamel(name, { ignorePrefix: 'm-data' });
+          twoWayBinding.call(this, this, name, dataName);
         }
       }
 
       if (this.$mounted !== undefined && this.$mounted !== null) {
-        this.$mounted.call(this);
+        setTimeout(() => this.$mounted.call(this), 0);
       }
     }
   }
