@@ -22,6 +22,7 @@ import bindAttribute from './bindAttribute.js';
  * - `$watcher`: data watcher
  * - `$methods`: methods
  * - `$emit`: dispatch custom event
+ * - `$ref`: referenced elements
  * 
  * ## DOM Attribute usages
  * - `m-data-<child-data-name>="<dataName>"`: two-way data binding (via data model)
