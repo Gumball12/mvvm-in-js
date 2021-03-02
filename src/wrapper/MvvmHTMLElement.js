@@ -1,4 +1,4 @@
-import kebobToCamel from '../utils/kebobToCamel.js';
+import kebobToCamel from './kebobToCamel.js';
 import bindEvent from './bindEvent.js';
 import twoWayBinding from './twoWayBinding.js';
 import registerRef from './registerRef.js';
