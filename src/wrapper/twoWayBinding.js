@@ -33,6 +33,7 @@ export default function (target, attrName, dataName) {
   });
 
   // each data model -> central
+  target.setAttribute(`${attrName}__bind`, this.$data[dataName]);
   this.$watcher[dataName].push((oldValue, newValue) =>
     target.setAttribute(`${attrName}__bind`, newValue));
 }

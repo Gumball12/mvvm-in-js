@@ -23,5 +23,7 @@ export default function (target, propName, dataName) {
     return;
   }
 
+  // bind
+  target[propName] = this.$data[dataName];
   this.$watcher[dataName].push((oldValue, newValue) => target[propName] = newValue);
 }

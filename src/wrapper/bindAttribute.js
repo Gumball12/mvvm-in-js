@@ -19,6 +19,8 @@ export default function (target, attrName, dataName) {
     return;
   }
 
+  // bind
+  target.setAttribute(attrName, this.$data[dataName]);
   this.$watcher[dataName].push((oldValue, newValue) =>
     target.setAttribute(attrName, newValue));
 }
