@@ -3,12 +3,12 @@ import './list-input.js';
 
 const html = `
 <div view>
-  <span model-text-content="text"></span>
-  <button @click="modify">m</button>
+  <span m-prop-text-content="text"></span>
+  <button @click="toModify">m</button>
   <button @click="remove">x</button>
 </div>
 <div modify>
-  <list-input model-input-value="text"></list-input>
+  <list-input m-data-input-value="text" @submit="toView"></list-input>
 </div>
 
 <style scoped>
@@ -35,8 +35,12 @@ window.customElements.define(
           text: '',
         },
         methods: {
-          modify() {
+          toModify() {
             this.classList.add('modify');
+          },
+          toView({ detail }) {
+            this.classList.remove('modify');
+            this.$data.text = detail;
           },
           remove() {
             this.remove();
@@ -46,26 +50,6 @@ window.customElements.define(
           this.$data.text = this.getAttribute('init-text');
         },
       });
-
-      /*
-      this.$ref.remove.addEventListener('click', this.remove.bind(this));
-
-      this.$ref.modify.addEventListener('click', () => {
-        this.classList.add('modify');
-        this.$ref.input.setAttribute('data-value', this.$data.innerText);
-      });
-
-      this.$ref.input.addEventListener('submit', ({ detail }) => {
-        this.$data.innerText = detail;
-        this.classList.remove('modify');
-      });
-
-      this.$watch('innerText', (oldValue, newValue) => {
-        if (oldValue !== newValue) {
-          this.$ref.p.textContent = newValue;
-        }
-      });
-      */
     }
   },
 );
