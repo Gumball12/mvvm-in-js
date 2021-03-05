@@ -8,7 +8,7 @@ const html = `
   <button @click="remove">x</button>
 </div>
 <div modify>
-  <list-input m-data-input-value="text" @submit="toView"></list-input>
+  <list-input m-bidata-input-value="text" @submit="toView"></list-input>
 </div>
 
 <style scoped>

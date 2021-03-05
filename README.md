@@ -23,8 +23,9 @@
 - `$ref`: referenced elements
 
 ### DOM Attribute usages
-- `m-data-<child-data-name>="<dataName>"`: two-way data binding (via data model)
-- `m-attr-<child-property-name-to-update>="<dataName>"`: property binding
-- `m-prop-<child-attribute-name-to-update>="<dataName>"`: attribute binding
+- `m-bidata-<child-data-name>="<dataName>"`: two-way data binding (via data model)
+- `m-data-<child-data-name>="<string type value>"`: set data
+- `m-prop-<child-property-name-to-update>="<dataName>"`: property binding
+- `m-attr-<child-attribute-name-to-update>="<dataName>"`: attribute binding
 - `m-ref="<refName>"`: register a reference to an element
 - `@<eventname>="<methodName>"`: add event listener

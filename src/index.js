@@ -9,7 +9,7 @@ const html = `
 </header>
 
 <main>
-  <list-input @submit="createTodoItem" m-data-input-value="printValue"></list-input>
+  <list-input @submit="createTodoItem" m-bidata-input-value="printValue"></list-input>
   <section m-ref="items"></section>
 </main>
 

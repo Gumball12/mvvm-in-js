@@ -4,6 +4,7 @@ import twoWayBinding from './twoWayBinding.js';
 import registerRef from './registerRef.js';
 import bindProperty from './bindProperty.js';
 import bindAttribute from './bindAttribute.js';
+import setData from './setData.js';
 
 /**
  * # MVVM Wrapped HTMLElement
@@ -25,7 +26,8 @@ import bindAttribute from './bindAttribute.js';
  * - `$ref`: referenced elements
  * 
  * ## DOM Attribute usages
- * - `m-data-<child-data-name>="<dataName>"`: two-way data binding (via data model)
+ * - `m-bidata-<child-data-name>="<dataName>"`: two-way data binding (via data model)
+ * - `m-data-<child-data-name>="<string type value>"`: set data
  * - `m-prop-<child-property-name-to-update>="<dataName>"`: property binding
  * - `m-attr-<child-attribute-name-to-update>="<dataName>"`: attribute binding
  * - `m-ref="<refName>"`: register a reference to an element
@@ -144,7 +146,7 @@ export default class extends HTMLElement {
             const attrName = kebobToCamel(name, { ignorePrefix: 'm-attr' });
             const dataName = el.getAttribute(name);
             bindAttribute.call(this, el, attrName, dataName, false);
-          } else if (name.startsWith('m-data-') && !name.endsWith('__bind')) {
+          } else if (name.startsWith('m-bidata-') && !name.endsWith('__bind')) {
             const dataName = el.getAttribute(name);
             twoWayBinding.call(this, el, name, dataName);
           } else if (name === 'm-ref') {
@@ -155,9 +157,13 @@ export default class extends HTMLElement {
       }
 
       for (const name of this.getAttributeNames()) {
-        if (name.startsWith('m-data-') && !name.endsWith('__bind')) {
-          const dataName = kebobToCamel(name, { ignorePrefix: 'm-data' });
+        if (name.startsWith('m-bidata-') && !name.endsWith('__bind')) {
+          const dataName = kebobToCamel(name, { ignorePrefix: 'm-bidata' });
           twoWayBinding.call(this, this, name, dataName);
+        } else if (name.startsWith('m-data-')) {
+          const dataName = kebobToCamel(name, { ignorePrefix: 'm-data' });
+          const value = this.getAttribute(name);
+          setData.call(this, this, dataName, value);
         }
       }
 
