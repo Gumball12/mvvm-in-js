@@ -29,3 +29,14 @@
 - `m-attr-<child-attribute-name-to-update>="<dataName>"`: attribute binding
 - `m-ref="<refName>"`: register a reference to an element
 - `@<eventname>="<methodName>"`: add event listener
+
+## Install
+
+```sh
+# clone this repo
+git clone https://github.com/Gumball12/mvvm-in-js.git
+cd mvvm-in-js
+
+# start local server
+live-server
+```
