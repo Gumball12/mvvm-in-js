@@ -59,6 +59,9 @@ export default class extends HTMLElement {
     this.$root = this.attachShadow({ mode: 'closed' });
     this.$root.innerHTML = __html;
 
+    // mounted state for avoid duplicated mounted callback
+    this.isMounted = false;
+
     // declare properties
     Object.defineProperties(this, {
       $data: {
@@ -130,6 +133,14 @@ export default class extends HTMLElement {
    * mounted
    */
   connectedCallback() {
+    // check if this component is already mounted
+    if (this.isMounted) {
+      return;
+    }
+
+    // mounted
+    this.isMounted = true;
+
     if (this.isConnected) {
       // dom traversing when is connected
       for (const el of this.$root.querySelectorAll('*')) {
